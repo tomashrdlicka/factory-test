@@ -21,15 +21,26 @@ A minimal repo to validate Smith's factory loop end-to-end.
 - [ ] Add tests for all three new functions in `src/calculator.test.js`
 - [ ] Ensure `npm test` passes
 
-**Stream [B]: Formatter Functions**
-- [ ] Add `formatCurrency(amount, currency)` function to `src/formatter.js` (e.g., formatCurrency(42.5, 'USD') returns '$42.50')
-- [ ] Add `formatPercent(value)` function to `src/formatter.js` (e.g., formatPercent(0.42) returns '42%')
-- [ ] Add `formatDate(date)` function to `src/formatter.js` (returns YYYY-MM-DD string)
-- [ ] Add tests for all three new functions in `src/formatter.test.js`
-- [ ] Ensure `npm test` passes
+**Stream [B]: Formatter Functions -- COMPLETE**
+- [x] Add `formatCurrency(amount, currency)` function to `src/formatter.js` (e.g., formatCurrency(42.5, 'USD') returns '$42.50')
+- [x] Add `formatPercent(value)` function to `src/formatter.js` (e.g., formatPercent(0.42) returns '42%')
+- [x] Add `formatDate(date)` function to `src/formatter.js` (returns YYYY-MM-DD string)
+- [x] Add tests for all three new functions in `src/formatter.test.js`
+- [x] Ensure `npm test` passes
 
 **Parallel:** A and B are fully independent. No shared files.
 **Merge gate:** `npm test` passes after merging both streams.
+
+**Synthesis Report (B merged, A pending):**
+
+*What was delivered:*
+- **B**: Users can format numbers as currency (USD, EUR), percentages, and ISO dates using locale-aware built-in APIs.
+
+*Merge narrative:*
+B merged first (only completed stream). Had conflicts with main on `.claude/CLAUDE.md` and session logs due to parallel decompose state recovery. Resolved by merging main into feature branch before squash merge. A's worker only committed a Smith config file, never implementing the calculator operations - needs re-dispatch.
+
+*What Phase 1 delivers so far:*
+The formatter module is now complete with three production-ready formatting functions backed by 12 tests. The calculator module still only has `add()` and awaits implementation of subtract, multiply, and divide.
 
 **Primary files:**
 | Stream | Files |
