@@ -1,6 +1,6 @@
-# Factory Test Project
+# TaskFlow
 
-Simple Node.js utility library. Two modules: calculator and formatter.
+Minimal task management CLI built incrementally by Smith's factory loop.
 
 ## Rules
 - Use Node.js built-in test runner (`node:test`)
@@ -9,3 +9,5 @@ Simple Node.js utility library. Two modules: calculator and formatter.
 - `npm test` must pass at all times
 - Do not ask questions. Make your best judgment on all decisions.
 - Never use the AskUserQuestion tool.
+- Keep functions pure where possible
+- Every new function needs tests

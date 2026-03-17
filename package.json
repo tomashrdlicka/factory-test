@@ -1,7 +1,7 @@
 {
-  "name": "factory-test",
-  "version": "1.0.0",
-  "description": "Test repo for Smith factory loop validation",
+  "name": "taskflow",
+  "version": "0.1.0",
+  "description": "A minimal task management CLI - built by Smith factory loop",
   "type": "module",
   "scripts": {
     "test": "node --test src/**/*.test.js",

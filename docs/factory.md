@@ -1,49 +1,72 @@
-# Factory Test
+# TaskFlow Factory
 
-A minimal repo to validate Smith's factory loop end-to-end.
-
-## Current State
-
-- Node.js project with `src/calculator.js` (only `add()`) and `src/formatter.js` (only `formatNumber()`)
-- Basic test files exist for both modules
-- `npm test` runs Node.js built-in test runner
+A minimal task management CLI. Each phase adds a layer of functionality.
 
 ## Phase Plan
 
-### Phase 1: Complete the Utility Library
+### Phase 1: Core Task Operations
 
-**Goal:** Implement the missing functions in both the calculator and formatter modules, with full test coverage.
+**Goal:** Complete the task store with update/delete/filter operations and add a formatter module for display output.
 
-**Stream [A]: Calculator Operations**
-- [ ] Add `subtract(a, b)` function to `src/calculator.js`
-- [ ] Add `multiply(a, b)` function to `src/calculator.js`
-- [ ] Add `divide(a, b)` function to `src/calculator.js` (throw on divide by zero)
-- [ ] Add tests for all three new functions in `src/calculator.test.js`
+**Stream [A]: Task Store Operations**
+- [ ] Add `updateTask(id, updates)` - update title or status, return updated task or null if not found
+- [ ] Add `deleteTask(id)` - remove task by id, return true/false
+- [ ] Add `findById(id)` - find single task by id
+- [ ] Add `filterByStatus(status)` - return tasks matching status
+- [ ] Add tests for all new functions in `src/store.test.js`
 - [ ] Ensure `npm test` passes
 
-**Stream [B]: Formatter Functions -- COMPLETE**
-- [x] Add `formatCurrency(amount, currency)` function to `src/formatter.js` (e.g., formatCurrency(42.5, 'USD') returns '$42.50')
-- [x] Add `formatPercent(value)` function to `src/formatter.js` (e.g., formatPercent(0.42) returns '42%')
-- [x] Add `formatDate(date)` function to `src/formatter.js` (returns YYYY-MM-DD string)
-- [x] Add tests for all three new functions in `src/formatter.test.js`
-- [x] Ensure `npm test` passes
+**Stream [B]: Display Formatter**
+- [ ] Create `src/formatter.js` with `formatTask(task)` - returns single-line string like `[1] Buy milk (todo)`
+- [ ] Add `formatTaskList(tasks)` - returns multi-line formatted string with header and count
+- [ ] Add `formatStatus(status)` - returns status with visual indicator (e.g., `[ ] todo`, `[~] doing`, `[x] done`)
+- [ ] Create `src/formatter.test.js` with tests for all functions
+- [ ] Ensure `npm test` passes
 
-**Parallel:** A and B are fully independent. No shared files.
+**Parallel:** A and B are fully independent. A works on `src/store.js`, B creates `src/formatter.js`.
 **Merge gate:** `npm test` passes after merging both streams.
-
-**Synthesis Report (B merged, A pending):**
-
-*What was delivered:*
-- **B**: Users can format numbers as currency (USD, EUR), percentages, and ISO dates using locale-aware built-in APIs.
-
-*Merge narrative:*
-B merged first (only completed stream). Had conflicts with main on `.claude/CLAUDE.md` and session logs due to parallel decompose state recovery. Resolved by merging main into feature branch before squash merge. A's worker only committed a Smith config file, never implementing the calculator operations - needs re-dispatch.
-
-*What Phase 1 delivers so far:*
-The formatter module is now complete with three production-ready formatting functions backed by 12 tests. The calculator module still only has `add()` and awaits implementation of subtract, multiply, and divide.
 
 **Primary files:**
 | Stream | Files |
 |--------|-------|
-| 1-A | `src/calculator.js`, `src/calculator.test.js` |
-| 1-B | `src/formatter.js`, `src/formatter.test.js` |
+| 1-A | `src/store.js`, `src/store.test.js` |
+| 1-B | `src/formatter.js` (NEW), `src/formatter.test.js` (NEW) |
+
+---
+
+### Phase 2: CLI Interface + Statistics
+
+**Goal:** Add a CLI entry point that uses the store and formatter, plus a statistics module.
+
+**Stream [A]: CLI Entry Point**
+- [ ] Create `src/cli.js` - parse process.argv for commands: add, list, done, delete
+- [ ] `add <title>` - creates a task, prints formatted confirmation
+- [ ] `list [--status=todo|doing|done]` - lists tasks with optional filter
+- [ ] `done <id>` - marks task as done
+- [ ] `delete <id>` - deletes a task
+- [ ] Add `"bin": { "taskflow": "src/cli.js" }` to package.json
+- [ ] Create `src/cli.test.js` - test argument parsing logic (extract parse function for testability)
+- [ ] Ensure `npm test` passes
+
+**Stream [B]: Statistics Module**
+- [ ] Create `src/stats.js` with `getStats(tasks)` - returns `{ total, todo, doing, done, completionRate }`
+- [ ] Add `formatStats(stats)` - returns human-readable stats summary
+- [ ] Create `src/stats.test.js` with tests for stats computation and formatting
+- [ ] Edge cases: empty task list, all done, all todo
+- [ ] Ensure `npm test` passes
+
+**Parallel:** A and B are fully independent. A creates `src/cli.js`, B creates `src/stats.js`.
+**Merge gate:** `npm test` passes after merging both streams. CLI commands work end-to-end.
+
+**Primary files:**
+| Stream | Files |
+|--------|-------|
+| 2-A | `src/cli.js` (NEW), `src/cli.test.js` (NEW), `package.json` (bin field) |
+| 2-B | `src/stats.js` (NEW), `src/stats.test.js` (NEW) |
+
+## Phase Ordering
+
+```
+Phase 1 ──> (core task operations + formatter)
+Phase 2 ──> (CLI interface + statistics) [depends on Phase 1]
+```
