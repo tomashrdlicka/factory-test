@@ -1,6 +1,6 @@
 import { describe, it, beforeEach } from 'node:test';
 import assert from 'node:assert';
-import { addTask, getTasks, clearAll } from './store.js';
+import { addTask, getTasks, clearAll, updateTask, deleteTask } from './store.js';
 
 describe('store', () => {
   beforeEach(() => clearAll());
