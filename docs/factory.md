@@ -14,11 +14,11 @@ A minimal task management CLI. Each phase adds a layer of functionality.
 - [ ] Add tests for both functions in `src/store.test.js`
 - [ ] `npm test` passes
 
-**Stream [B]: Display Formatter**
-- [ ] Create `src/formatter.js` with `formatTask(task)` - returns `[1] Buy milk (todo)`
-- [ ] Add `formatTaskList(tasks)` - returns multi-line string, one `formatTask` per line, with `"No tasks"` for empty list
-- [ ] Create `src/formatter.test.js` with tests for both functions
-- [ ] `npm test` passes
+**Stream [B]: Display Formatter -- COMPLETE**
+- [x] Create `src/formatter.js` with `formatTask(task)` - returns `[1] Buy milk (todo)`
+- [x] Add `formatTaskList(tasks)` - returns multi-line string, one `formatTask` per line, with `"No tasks"` for empty list
+- [x] Create `src/formatter.test.js` with tests for both functions
+- [x] `npm test` passes
 
 **Parallel:** A and B are fully independent. A modifies `src/store.js`, B creates `src/formatter.js`.
 **Merge gate:** `npm test` passes after merging both streams.
