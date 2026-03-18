@@ -17,6 +17,20 @@ export function getTasks() {
   return [...tasks];
 }
 
+export function updateTask(id, updates) {
+  const task = tasks.find(t => t.id === id);
+  if (!task) return null;
+  Object.assign(task, updates);
+  return task;
+}
+
+export function deleteTask(id) {
+  const index = tasks.findIndex(t => t.id === id);
+  if (index === -1) return false;
+  tasks.splice(index, 1);
+  return true;
+}
+
 export function clearAll() {
   tasks.length = 0;
   nextId = 1;
