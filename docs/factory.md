@@ -40,3 +40,35 @@ A merged first, then B. Zero conflicts - the streams were fully independent by d
 
 *What Phase 1 delivers:*
 TaskFlow now has a complete task manipulation layer. Users can create, read, update, and delete tasks, and format them for display. This provides the foundation for building a CLI interface or any consumer that needs to present task state to users.
+
+---
+
+### Phase 2: CLI + Persistence
+
+**Goal:** Make TaskFlow usable from the command line with persistent storage across sessions.
+
+**Stream [A]: CLI Interface**
+- [ ] Create `src/cli.js` with `run(args)` that parses an args array and dispatches to store functions
+  - Commands: `add <title>`, `list`, `update <id> <field> <value>`, `delete <id>`
+  - Returns output strings using the formatter (no direct console.log for testability)
+- [ ] Create `src/cli.test.js` with tests for each command and error cases
+- [ ] Create `bin/taskflow.js` as the executable entry point that calls `run(process.argv.slice(2))` and prints the result
+- [ ] Add `"bin"` field to `package.json`
+- [ ] `npm test` passes
+
+**Stream [B]: JSON Persistence**
+- [ ] Create `src/persistence.js` with `saveTasks(tasks, filepath)` and `loadTasks(filepath)`
+  - Uses `node:fs` (writeFileSync, readFileSync)
+  - JSON format with date serialization/deserialization
+  - `loadTasks` returns empty array if file doesn't exist
+- [ ] Create `src/persistence.test.js` with tests for save/load cycle, missing file, and date round-tripping
+- [ ] `npm test` passes
+
+**Parallel:** A and B are fully independent. A creates CLI files, B creates persistence files. Neither modifies existing source files.
+**Merge gate:** `npm test` passes after merging both streams.
+
+**Primary files:**
+| Stream | Files |
+|--------|-------|
+| 2-A | `src/cli.js` (NEW), `src/cli.test.js` (NEW), `bin/taskflow.js` (NEW), `package.json` (bin field) |
+| 2-B | `src/persistence.js` (NEW), `src/persistence.test.js` (NEW) |
