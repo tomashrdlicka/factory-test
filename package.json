@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "A minimal task management CLI - built by Smith factory loop",
   "type": "module",
+  "bin": {
+    "taskflow": "./bin/taskflow.js"
+  },
   "scripts": {
     "test": "node --test src/**/*.test.js",
     "verify": "node --test src/**/*.test.js",
